@@ -13,7 +13,6 @@ public class AppTest {
                         종료
                         """
         );
-
         assertThat(out).contains("== 명언 앱 ==");
 
     }
@@ -29,9 +28,9 @@ public class AppTest {
                         종료
                         """
         );
-
-
-        assertThat(out).contains("== 명언 앱 ==");
+        assertThat(out).contains("명령) ");
+        assertThat(out).contains("명언 : ");
+        assertThat(out).contains("작가 : ");
 
     }
 
