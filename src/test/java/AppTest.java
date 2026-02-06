@@ -18,6 +18,7 @@ public class AppTest {
 
         String out = outputStream.toString();
 
+
         assertThat(out).contains("== 명언 앱 ==");
 
     }

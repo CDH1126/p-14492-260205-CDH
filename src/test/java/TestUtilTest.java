@@ -11,15 +11,15 @@ public class TestUtilTest {
     @Test
     @DisplayName("TestUtil.genScanner()")
     void t1() {
-        Scanner scanner = TestUtil.genScanner("""
+        Scanner sc = TestUtil.genScanner("""
                 등록
                 현재를 사랑하라.
                 작자미상
                 """);
 
-        String cmd = scanner.nextLine();
-        String content = scanner.nextLine();
-        String author = scanner.nextLine();
+        String cmd = sc.nextLine();
+        String content = sc.nextLine();
+        String author = sc.nextLine();
 
         assertThat(cmd).isEqualTo("등록");
         assertThat(content).isEqualTo("현재를 사랑하라.");
