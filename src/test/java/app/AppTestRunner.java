@@ -1,3 +1,5 @@
+package app;
+
 import java.io.ByteArrayOutputStream;
 import java.util.Scanner;
 
