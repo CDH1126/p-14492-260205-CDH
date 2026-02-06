@@ -1,3 +1,5 @@
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.Scanner;
 
 public class TestUtil { // 상태값 존재 X, 객체 생성 X
@@ -16,4 +18,14 @@ public class TestUtil { // 상태값 존재 X, 객체 생성 X
         return new Scanner(input);
     }
 
+    public static ByteArrayOutputStream setOutByteArray() {
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        PrintStream printStream = new PrintStream(byteArrayOutputStream);
+
+        System.setOut(printStream);
+
+        return byteArrayOutputStream;
+
+    }
 }

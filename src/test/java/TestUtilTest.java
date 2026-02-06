@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Scanner;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -8,7 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class TestUtilTest {
 
     @Test
-    @DisplayName("TestUtil.getScanner()")
+    @DisplayName("TestUtil.genScanner()")
     void t1() {
         Scanner scanner = TestUtil.genScanner("""
                 등록
@@ -21,9 +22,23 @@ public class TestUtilTest {
         String author = scanner.nextLine();
 
         assertThat(cmd).isEqualTo("등록");
-        assertThat(cmd).isEqualTo("현재를 사랑하라.");
-        assertThat(cmd).isEqualTo("작자미상");
+        assertThat(content).isEqualTo("현재를 사랑하라.");
+        assertThat(author).isEqualTo("작자미상");
 
+    }
+
+    @Test
+    @DisplayName("TestUtil.setOutByArray()")
+    void t2() {
+        ByteArrayOutputStream byteArrayOutputStream = TestUtil.setOutByteArray();
+
+        System.out.println("안녕하세요");
+
+        String rst = byteArrayOutputStream.toString();
+
+        assertThat(rst).contains("안녕하세요"); // 문자열은 자동 줄바꿈으로 인해 .contains() 사용
+
+    }
 //    @Test
 //    @DisplayName("등록")
 //    void t1() {
@@ -38,5 +53,4 @@ public class TestUtilTest {
 //                .contains("작가 : ")
 //                .contains("1번 명언이 등록되었습니다.");
 
-    }
 }
