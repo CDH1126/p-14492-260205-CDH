@@ -29,14 +29,18 @@ public class TestUtilTest {
 
     @Test
     @DisplayName("TestUtil.setOutByArray()")
-    void t2() {
+    void t2() throws Exception {
         ByteArrayOutputStream byteArrayOutputStream = TestUtil.setOutByteArray();
 
-        System.out.println("안녕하세요");
+        System.out.println("1 / 이순신 / 나의 죽음을 적에게 알리지 마라");
 
         String rst = byteArrayOutputStream.toString();
 
-        assertThat(rst).contains("안녕하세요"); // 문자열은 자동 줄바꿈으로 인해 .contains() 사용
+        TestUtil.clearSetOutToByteArray(byteArrayOutputStream); // 이걸 해야 출력 결과 나옴
+
+        System.out.println("출력결과: " + rst); //
+
+        assertThat(rst).contains("1 / 이순신 / 나의 죽음을 적에게 알리지 마라"); // 문자열은 자동 줄바꿈으로 인해 .contains() 사용
 
     }
 //    @Test
