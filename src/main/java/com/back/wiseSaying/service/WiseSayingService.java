@@ -29,5 +29,9 @@ public class WiseSayingService {
         return wiseSayingRepository.delete(id);
     }
 
+    public WiseSaying findByIdOrNull(int id) {
+        return wiseSayingRepository.findByIdOrNull(id);
+    }
+
 
 }
