@@ -1,4 +1,4 @@
 package com.back.system.controller;
 
-public class SystemController {
+public class SystemControllerTest {
 }
