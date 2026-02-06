@@ -1,6 +1,7 @@
 package com.back.wiseSaying.controller;
 
 import com.back.global.AppContext;
+import com.back.global.Rq;
 import com.back.wiseSaying.entity.WiseSaying;
 import com.back.wiseSaying.service.WiseSayingService;
 
@@ -40,4 +41,17 @@ public class WiseSayingController {
                         wiseSaying.getId(), wiseSaying.getAuthor(), wiseSaying.getSaying()));
 
     }
+
+    public void actionDelete(Rq rq) {
+
+        int id = rq.getParamAsInt("id", -1);
+        boolean rst = wiseSayingService.delete(id);
+
+        System.out.println("%d번 명언이 삭제되었습니다.".formatted(id));
+
+    }
+
+
+
+
 }
