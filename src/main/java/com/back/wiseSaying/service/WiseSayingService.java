@@ -34,4 +34,13 @@ public class WiseSayingService {
     }
 
 
+    public void modify(WiseSaying wiseSaying, String newSaying, String newAuthor) {
+
+        wiseSaying.setSaying(newSaying);
+        wiseSaying.setAuthor(newAuthor);
+
+        wiseSayingRepository.save(wiseSaying);
+    }
+
+
 }
