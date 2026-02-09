@@ -1,5 +1,6 @@
 package com.back.wiseSaying.repository;
 
+import com.back.wiseSaying.dto.PageDto;
 import com.back.wiseSaying.entity.WiseSaying;
 
 import java.util.ArrayList;
@@ -33,32 +34,54 @@ public class WiseSayingRepository {
     }
 
 
-    public List<WiseSaying> findListDesc(int page, int pageSize) {
-        return wiseSayings.reversed()
+    public PageDto findListDesc(int page, int pageSize) {
+        int totalCount = wiseSayings.size();
+
+        List<WiseSaying> content = wiseSayings.reversed()
                 .stream()
                 .skip((page - 1) * pageSize)
                 .limit(pageSize)
                 .toList();
+
+        return new PageDto(page, pageSize, totalCount, content);
     }
 
 
-    public List<WiseSaying> findByContentKeywordOrderByDesc(String kw, int page, int pageSize) {
-        return wiseSayings.reversed()
+    public PageDto findByContentKeywordOrderByDesc(String kw, int page, int pageSize) {
+
+        int totalCount = wiseSayings
                 .stream()
-                .skip((page - 1) * pageSize)
                 .filter(w -> w.getSaying().contains(kw))
+                .toList()
+                .size();
+
+        List<WiseSaying> content = wiseSayings.reversed()
+                .stream()
+                .filter(w -> w.getSaying().contains(kw))
+                .skip((page - 1) * pageSize)
                 .limit(pageSize)
                 .toList();
+
+        return new PageDto(page, pageSize, totalCount, content);
     }
 
 
-    public List<WiseSaying> findByAuthorKeywordOrderByDesc(String kw, int page, int pageSize) {
-        return wiseSayings.reversed()// reversed() 순서 주의하기
+    public PageDto findByAuthorKeywordOrderByDesc(String kw, int page, int pageSize) {
+
+        int totalCount = wiseSayings
                 .stream()
-                .skip((page - 1) * pageSize)
                 .filter(w -> w.getAuthor().contains(kw))
+                .toList()
+                .size();
+
+        List<WiseSaying> content = wiseSayings.reversed()
+                .stream()
+                .filter(w -> w.getAuthor().contains(kw))
+                .skip((page - 1) * pageSize)
                 .limit(pageSize)
                 .toList();
+
+        return new PageDto(page, pageSize, totalCount, content);
     }
 
 
