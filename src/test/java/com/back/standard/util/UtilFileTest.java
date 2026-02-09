@@ -21,5 +21,27 @@ public class UtilFileTest {
 
         assertThat(rst).isTrue();
 
+        // 테스트가 끝나면 파일 삭제
+        Util.file.delete(filePath);
+
     }
+
+    @Test
+    @DisplayName("파일 삭제")
+    void t2() {
+
+        // given
+        String filePath = "test.txt";
+        Util.file.touch(filePath); // 파일 생성
+
+        // when
+        Util.file.delete(filePath);
+
+        // then
+        boolean rst = Util.file.exists(filePath);
+        assertThat(rst).isFalse();
+
+    }
+
+
 }
