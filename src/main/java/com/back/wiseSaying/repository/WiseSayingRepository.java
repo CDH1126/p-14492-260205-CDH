@@ -38,4 +38,10 @@ public class WiseSayingRepository {
     }
 
 
+    public List<WiseSaying> findKeywordOderByDesc(String kw) {
+        return wiseSayings.stream()
+                .filter(w -> w.getSaying().contains(kw))
+                .toList()
+                .reversed();
+    }
 }
