@@ -21,11 +21,11 @@ public class WiseSayingService {
         return wiseSaying;
     }
 
-    public List<WiseSaying> findListDesc(String kw, String kwt) {
+    public List<WiseSaying> findListDesc(String kw, String kwt, int page, int pageSize) {
         return switch (kwt) {
-            case "content" -> wiseSayingRepository.findByContentKeywordOrderByDesc(kw);
-            case "author" -> wiseSayingRepository.findByAuthorKeywordOrderByDesc(kw);
-            default -> wiseSayingRepository.findListDesc();
+            case "content" -> wiseSayingRepository.findByContentKeywordOrderByDesc(kw, page, pageSize);
+            case "author" -> wiseSayingRepository.findByAuthorKeywordOrderByDesc(kw, page, pageSize);
+            default -> wiseSayingRepository.findListDesc(page, pageSize);
         };
     }
 

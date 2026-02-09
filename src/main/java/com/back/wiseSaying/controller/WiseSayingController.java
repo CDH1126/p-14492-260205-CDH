@@ -42,7 +42,10 @@ public class WiseSayingController {
         System.out.println("번호 / 작가 / 명언");
         System.out.println("----------------------");
 
-        List<WiseSaying> wiseSayings = wiseSayingService.findListDesc(kw, kwt);
+        int page = 1;
+        int pageSize = 5;
+
+        List<WiseSaying> wiseSayings = wiseSayingService.findListDesc(kw, kwt, page, pageSize);
 
         wiseSayings
                 .stream() // 여기서 필터링 X
