@@ -53,11 +53,25 @@ public class Util {
             } else {
                 throw new RuntimeException("파일 접근 실패: " + path, e);
             }
-            }
+        }
 
         public static boolean exists(String filePath) {
-                return Files.exists(getPath(filePath));
+            return Files.exists(getPath(filePath));
+        }
+
+
+        public static boolean rmdir(String dirPath) {
+            return delete(dirPath);
+        }
+
+        public static void mkdir(String dirPath) {
+            try {
+                Files.createDirectories(getPath(dirPath));
+            } catch (IOException e) {
+                throw new RuntimeException("디렉토리 생성 실패: " + dirPath, e);
             }
+        }
+
 
         private static class FileDeleteVisitor extends SimpleFileVisitor<Path> {
             @Override
@@ -65,7 +79,6 @@ public class Util {
                 Files.delete(file);
                 return FileVisitResult.CONTINUE;
             }
-
             @Override
             public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
                 Files.delete(dir);

@@ -1,22 +1,35 @@
 package com.back.standard.util;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class UtilFileTest {
+
+    @BeforeAll // 테스트 전처리
+    static void beforeAll() {
+        Util.file.mkdir("temp");
+    }
+
+    @AfterAll // 테스트 후처리
+    static void afterAll() {
+        Util.file.rmdir("temp");
+    }
+
     @Test
     @DisplayName("파일 생성")
     void t1() {
 
-        // 무언가를 세팅하고
+        // 세팅
         String filePath = "test.txt";
 
-        // 수행하면
+        // 수행
         Util.file.touch(filePath);
 
-        // 결과가 나온다. => 실제 파일이 존재하는가?
+        // 결과 => 실제 파일이 존재하는가?
         boolean rst = Util.file.exists(filePath);
 
         assertThat(rst).isTrue();
