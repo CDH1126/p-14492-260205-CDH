@@ -57,6 +57,9 @@ public class WiseSayingFileRepository {
     }
 
 
+    public void delete(WiseSaying wiseSaying1) {
+        Util.file.delete("%s/%d.json".formatted(getDbPath(), wiseSaying1.getId()));
+    }
 
 
 }
