@@ -4,6 +4,7 @@ import com.back.standard.util.Util;
 import com.back.wiseSaying.entity.WiseSaying;
 
 import java.util.Map;
+import java.util.Optional;
 
 public class WiseSayingFileRepository {
 
@@ -38,15 +39,16 @@ public class WiseSayingFileRepository {
     }
 
 
-    public WiseSaying findByIdOrNull(int id) {
+    public Optional<WiseSaying> findById(int id) {
         String jsonStr = Util.file.get("%s/%d.json".formatted(getDbPath(), id), "");
-
         if (jsonStr.isBlank()) { // isBlank() - 공백일 경우를 체크함
-            return null;
+            return Optional.empty();
         }
 
         Map<String, Object> map = Util.json.toMap(jsonStr);
-        return WiseSaying.fromMap(map);
+        WiseSaying ws = WiseSaying.fromMap(map);
+
+        return Optional.of(ws);
     }
 
 
