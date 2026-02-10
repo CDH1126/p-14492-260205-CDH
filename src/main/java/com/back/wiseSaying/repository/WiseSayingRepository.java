@@ -3,76 +3,16 @@ package com.back.wiseSaying.repository;
 import com.back.wiseSaying.dto.PageDto;
 import com.back.wiseSaying.entity.WiseSaying;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class WiseSayingRepository {
-
-    private List<WiseSaying> wiseSayings = new ArrayList<>();
-    private int lastId = 0;
-
-    public WiseSaying save(WiseSaying wiseSaying) {
-        if(wiseSaying.isNew()) { // 객체를 다룰 땐 (클래스)자신의 영역 안에서
-            wiseSaying.setId(++lastId);
-            wiseSayings.add(wiseSaying);
-        }
-
-        return wiseSaying;
-    }
-
-    public boolean delete(int id) {
-        return wiseSayings.removeIf(wiseSaying -> wiseSaying.getId() == id);
-    }
+import java.util.Optional;
 
 
-    public WiseSaying findByIdOrNull(int id) {
-
-        return wiseSayings.stream()
-                .filter(wiseSaying -> wiseSaying.getId() == id)
-                .findFirst()
-                .orElse(null);
-    }
-
-
-    public PageDto findListDesc(int page, int pageSize) {
-
-        return pageOf(wiseSayings, page, pageSize);
-    }
-
-
-    public PageDto findByContentKeywordOrderByDesc(String kw, int page, int pageSize) {
-
-        List<WiseSaying> filteredcontent = wiseSayings.reversed()
-                .stream()
-                .filter(w -> w.getSaying().contains(kw))
-                .toList();
-
-        return pageOf(filteredcontent, page, pageSize);
-    }
-
-
-    public PageDto findByAuthorKeywordOrderByDesc(String kw, int page, int pageSize) {
-
-        List<WiseSaying> filteredContent = wiseSayings.reversed()
-                .stream()
-                .filter(w -> w.getAuthor().contains(kw))
-                .toList();
-
-        return pageOf(filteredContent, page, pageSize);
-    }
-
-    private PageDto pageOf(List<WiseSaying> filteredContent, int page, int pageSize) {
-        int totalCount = filteredContent.size();
-
-        List<WiseSaying> pagedFilteredContent = filteredContent.reversed()
-                .stream()
-                .skip((page - 1) * pageSize)
-                .limit(pageSize)
-                .toList();
-
-        return new PageDto(page, pageSize, totalCount, pagedFilteredContent);
-    }
-
-
+public interface WiseSayingRepository {
+    // 반환 타입 _ 메서드명 (매개변수)
+    WiseSaying save(WiseSaying wiseSaying);
+    Optional<WiseSaying> findById(int id);
+    PageDto findAll(int page, int pageSize);
+    boolean delete(WiseSaying wiseSaying1);
+    PageDto findByContentContainingDesc(String kw, int page, int pageSize);
+    PageDto findByAuthorContainingDesc(String kw, int page, int pageSize);
 
 }

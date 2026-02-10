@@ -5,35 +5,43 @@ import com.back.wiseSaying.dto.PageDto;
 import com.back.wiseSaying.entity.WiseSaying;
 import com.back.wiseSaying.repository.WiseSayingRepository;
 
+import java.util.Optional;
+
+import static com.back.global.AppContext.wiseSayingMemRepository;
+
 public class WiseSayingService {
 
-    private WiseSayingRepository wiseSayingRepository;
+    private WiseSayingRepository wiseSayingRepository ;
 
     public WiseSayingService() {
-        this.wiseSayingRepository = AppContext.wiseSayingRepository;
+        this.wiseSayingRepository = AppContext.wiseSayingFileRepository;
     }
 
     public WiseSaying write(String saying, String author) {
         WiseSaying wiseSaying = new WiseSaying(0, saying, author);
-        wiseSayingRepository.save(wiseSaying);
+        wiseSayingMemRepository.save(wiseSaying);
 
         return wiseSaying;
     }
 
     public PageDto findListDesc(String kw, String kwt, int page, int pageSize) {
         return switch (kwt) {
-            case "content" -> wiseSayingRepository.findByContentKeywordOrderByDesc(kw, page, pageSize);
-            case "author" -> wiseSayingRepository.findByAuthorKeywordOrderByDesc(kw, page, pageSize);
-            default -> wiseSayingRepository.findListDesc(page, pageSize);
+            case "content" -> wiseSayingMemRepository.findByContentContainingDesc(kw, page, pageSize);
+            case "author" -> wiseSayingMemRepository.findByContentContainingDesc(kw, page, pageSize);
+            default -> wiseSayingMemRepository.findAll(page, pageSize);
         };
     }
 
     public boolean delete(int id) {
-        return wiseSayingRepository.delete(id);
+        Optional<WiseSaying> wiseSayingOp = wiseSayingRepository.findById(id);
+        if(wiseSayingOp.isEmpty()) {
+            return false;
+        }
+        return wiseSayingRepository.delete(wiseSayingOp.get());
     }
 
     public WiseSaying findByIdOrNull(int id) {
-        return wiseSayingRepository.findByIdOrNull(id);
+        return wiseSayingRepository.findById(id).orElse(null);
     }
 
 
@@ -42,7 +50,7 @@ public class WiseSayingService {
         wiseSaying.setSaying(newSaying);
         wiseSaying.setAuthor(newAuthor);
 
-        wiseSayingRepository.save(wiseSaying);
+        wiseSayingMemRepository.save(wiseSaying);
     }
 
 

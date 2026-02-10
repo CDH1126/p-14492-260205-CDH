@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class WiseSayingFileRepository {
+public class WiseSayingFileRepository implements WiseSayingRepository{
 
 
     public WiseSaying save(WiseSaying wiseSaying) {
@@ -33,7 +33,7 @@ public class WiseSayingFileRepository {
     }
 
 
-    public String getDbPath() {
+    private String getDbPath() {
         return "db/wiseSaying";
     }
 
@@ -65,10 +65,19 @@ public class WiseSayingFileRepository {
     }
 
 
-    public void delete(WiseSaying wiseSaying1) {
-        Util.file.delete("%s/%d.json".formatted(getDbPath(), wiseSaying1.getId()));
+    public boolean delete(WiseSaying wiseSaying1) {
+        return Util.file.delete("%s/%d.json".formatted(getDbPath(), wiseSaying1.getId()));
     }
 
+
+    public PageDto findAll(int page, int pageSize) {
+        List<WiseSaying> filteredContent = findAll().stream()
+                .skip((page - 1) * pageSize)
+                .limit(pageSize)
+                .toList();
+        int totalCount = findAll().size();
+        return new PageDto(page, pageSize, totalCount, filteredContent);
+    }
 
     public List<WiseSaying> findAll() {
         return Util.file.walkRegularFiles(getDbPath(), "^\\d+\\.json$")
@@ -77,7 +86,6 @@ public class WiseSayingFileRepository {
                 .map(WiseSaying::fromMap)
                 .toList();
     }
-
 
 
     public PageDto findByContentContainingDesc(String kw, int page, int pageSize) {
@@ -99,7 +107,6 @@ public class WiseSayingFileRepository {
 
         return new PageDto(page, pageSize, totalCount, pagedFilteredContent);
     }
-
 
     public PageDto findByAuthorContainingDesc(String kw, int page, int pageSize) {
         List<WiseSaying> filteredContent = findAll().reversed().stream()
