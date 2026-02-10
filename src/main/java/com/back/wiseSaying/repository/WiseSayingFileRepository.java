@@ -7,20 +7,31 @@ import java.util.Map;
 
 public class WiseSayingFileRepository {
 
-    private int lastId = 0;
 
     public WiseSaying save(WiseSaying wiseSaying) {
 
         if (wiseSaying.isNew()) {
 
-            wiseSaying.setId(++lastId);
+            increaseLastId();
+            int lastId = getLastId();
+
+            wiseSaying.setId(lastId);
             Map<String, Object> wiseSayingMap = wiseSaying.toMap();
             String jsonStr = Util.json.toString(wiseSayingMap);
             Util.file.set("db/wiseSaying/%d.json".formatted(wiseSaying.getId()), jsonStr);
-
         }
-
         return wiseSaying;
+    }
+
+
+    private int getLastId() {
+
+        return Util.file.getAsInt("db/wiseSaying/lastId.txt", 0);
+    }
+
+
+    private void increaseLastId() {
+        Util.file.set("db/wiseSaying/lastId.txt", String.valueOf(getLastId() + 1));
     }
 
 
