@@ -18,25 +18,28 @@ public class WiseSayingFileRepository {
             wiseSaying.setId(lastId);
             Map<String, Object> wiseSayingMap = wiseSaying.toMap();
             String jsonStr = Util.json.toString(wiseSayingMap);
-            Util.file.set("db/wiseSaying/%d.json".formatted(wiseSaying.getId()), jsonStr);
+            Util.file.set("%s/%d.json".formatted(getDbPath(), wiseSaying.getId()), jsonStr);
         }
         return wiseSaying;
     }
 
 
-    private int getLastId() {
+    public String getDbPath() {
+        return "db/wiseSaying";
+    }
 
-        return Util.file.getAsInt("db/wiseSaying/lastId.txt", 0);
+    private int getLastId() {
+        return Util.file.getAsInt("%s/lastId.txt".formatted(getDbPath()), 0);
     }
 
 
     private void increaseLastId() {
-        Util.file.set("db/wiseSaying/lastId.txt", String.valueOf(getLastId() + 1));
+        Util.file.set("%s/lastId.txt".formatted(getDbPath()), String.valueOf(getLastId() + 1));
     }
 
 
     public WiseSaying findByIdOrNull(int id) {
-        String jsonStr = Util.file.get("db/wiseSaying/%d.json".formatted(id), "");
+        String jsonStr = Util.file.get("%s/%d.json".formatted(getDbPath(), id), "");
 
         if (jsonStr.isBlank()) { // isBlank() - 공백일 경우를 체크함
             return null;
@@ -48,8 +51,10 @@ public class WiseSayingFileRepository {
 
 
     public void clear() {
-        Util.file.delete("db/wiseSaying");
+        Util.file.delete(getDbPath());
     }
+
+
 
 
 }
