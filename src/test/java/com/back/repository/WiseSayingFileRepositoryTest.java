@@ -8,6 +8,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class WiseSayingFileRepositoryTest {
@@ -109,6 +111,31 @@ public class WiseSayingFileRepositoryTest {
                 isEqualTo("소크라테스");
     }
 
+
+    @Test
+    @DisplayName("명언 다건 조회 - 모든 명언 조회")
+    void t5() {
+
+        WiseSaying wiseSaying1 = new WiseSaying("꿈을 지녀라. 그러면 어려운 현실을 이길 수 있다.", "괴테");
+        wiseSayingFileRepository.save(wiseSaying1);
+
+        WiseSaying wiseSaying2 = new WiseSaying("너 자신을 알라.", "소크라테스");
+        wiseSayingFileRepository.save(wiseSaying2);
+
+        WiseSaying wiseSaying3 = new WiseSaying("꿈은 현실이 된다.", "작자미상");
+        wiseSayingFileRepository.save(wiseSaying3);
+
+        List<WiseSaying> wiseSayings = wiseSayingFileRepository.findAll();
+        // findAll - 메서드명을 기존에 있는 것과 일치하는 것이 좋지만 나중에 있을 JPA 개념에서 사용하기 위해 씀
+
+        assertThat(wiseSayings)
+                .containsExactly(
+                        wiseSaying1,
+                        wiseSaying2,
+                        wiseSaying3
+                );
+
+    }
 
 }
 

@@ -3,6 +3,7 @@ package com.back.wiseSaying.repository;
 import com.back.standard.util.Util;
 import com.back.wiseSaying.entity.WiseSaying;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -65,6 +66,16 @@ public class WiseSayingFileRepository {
 
     public void delete(WiseSaying wiseSaying1) {
         Util.file.delete("%s/%d.json".formatted(getDbPath(), wiseSaying1.getId()));
+    }
+
+
+    public List<WiseSaying> findAll() {
+        return Util.file.walkRegularFiles(getDbPath(), "^\\d+\\.json$")
+                .map(path -> Util.file.get(path.toString(), ""))
+                .map(Util.json::toMap)
+                .map(WiseSaying::fromMap)
+                .toList();
+
     }
 
 
