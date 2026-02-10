@@ -47,4 +47,9 @@ public class WiseSayingFileRepository {
     }
 
 
+    public void clear() {
+        Util.file.delete("db/wiseSaying");
+    }
+
+
 }
