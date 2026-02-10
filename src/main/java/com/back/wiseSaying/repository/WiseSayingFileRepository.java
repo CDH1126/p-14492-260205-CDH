@@ -20,7 +20,13 @@ public class WiseSayingFileRepository {
             Map<String, Object> wiseSayingMap = wiseSaying.toMap();
             String jsonStr = Util.json.toString(wiseSayingMap);
             Util.file.set("%s/%d.json".formatted(getDbPath(), wiseSaying.getId()), jsonStr);
+
+            return wiseSaying;
         }
+
+        String jsonStr = Util.json.toString(wiseSaying.toMap());
+        Util.file.set("%s/%d.json".formatted(getDbPath(), wiseSaying.getId()), jsonStr);
+
         return wiseSaying;
     }
 
