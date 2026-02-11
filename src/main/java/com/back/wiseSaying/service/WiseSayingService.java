@@ -14,7 +14,7 @@ public class WiseSayingService {
     private WiseSayingRepository wiseSayingRepository ;
 
     public WiseSayingService() {
-        this.wiseSayingRepository = AppContext.wiseSayingFileRepository;
+        this.wiseSayingRepository = AppContext.wiseSayingRepository;
     }
 
     public WiseSaying write(String saying, String author) {
@@ -27,7 +27,7 @@ public class WiseSayingService {
     public PageDto findListDesc(String kw, String kwt, int page, int pageSize) {
         return switch (kwt) {
             case "content" -> wiseSayingMemRepository.findByContentContainingDesc(kw, page, pageSize);
-            case "author" -> wiseSayingMemRepository.findByContentContainingDesc(kw, page, pageSize);
+            case "author" -> wiseSayingMemRepository.findByAuthorContainingDesc(kw, page, pageSize);
             default -> wiseSayingMemRepository.findAll(page, pageSize);
         };
     }

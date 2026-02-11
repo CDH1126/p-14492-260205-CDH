@@ -61,7 +61,7 @@ public class WiseSayingController {
         System.out.print("페이지 : ");
         String pageMenuStr = IntStream
                 .rangeClosed(1, pageDto.getPageCount())
-                .mapToObj((num) -> num == page ? "[%d]".formatted() : String.valueOf(num))
+                .mapToObj((num) -> num == page ? "[" + num + "] " : String.valueOf(num))
                 .collect(Collectors.joining(" / "));
 
         System.out.println(pageMenuStr);
